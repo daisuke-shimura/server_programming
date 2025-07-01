@@ -42,3 +42,18 @@ def snippet_edit(request, snippet_id):
 def snippet_detail(request, snippet_id):
     snippet = get_object_or_404(Helloworld, pk=snippet_id)
     return render(request, 'snippets/snippet_detail.html', {'snippet': snippet})
+
+
+from django.contrib.auth import login
+from .forms import CustomUserCreationForm
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # 自動ログイン
+            return redirect('/')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'snippets/signup.html', {'form': form})

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Helloworld(models.Model):
@@ -14,12 +15,31 @@ class Helloworld(models.Model):
                                    on_delete=models.CASCADE)
     created_at = models.DateTimeField('投稿日', auto_now_add=True)
     updated_at = models.DateTimeField('更新日', auto_now=True)
+    def __str__(self):
+        return self.title
 
 
-def __str__(self):
-    return self.title
+class User(AbstractUser):
+    university = models.CharField(max_length=128, null=True, blank=True)
+    school_year = models.PositiveIntegerField(null=True, blank=True)
 
 
-from django.db import models
+class Manager(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-# Create your models here.
+
+class Lecture(models.Model):
+    name = models.CharField(max_length=128)
+    body = models.TextField()
+    university = models.CharField(max_length=128)
+    school_year = models.IntegerField()
+    average_score = models.FloatField()
+    reviews_count = models.IntegerField()
+
+
+class Review(models.Model):
+    title = models.CharField(max_length=128)
+    comment = models.TextField()
+    score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
