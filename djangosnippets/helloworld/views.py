@@ -85,10 +85,9 @@ def manager_signup(request):
 from django.contrib.auth.views import LoginView
 
 class CustomLoginView(LoginView):
-    #template_name = 'registration/login.html'
-    def is_manager(self):
+    def get_success_url(self):
         user = self.request.user
-        print("manager変数:", user.is_managers)
+        print("manager変数:", user.is_manager)
         if user.is_manager:
             return 'manager/'  # 管理者用ページへ
         else:
