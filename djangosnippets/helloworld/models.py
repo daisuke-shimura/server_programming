@@ -22,10 +22,7 @@ class Helloworld(models.Model):
 class User(AbstractUser):
     university = models.CharField(max_length=128, null=True, blank=True)
     school_year = models.PositiveIntegerField(null=True, blank=True)
-
-
-class Manager(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    is_manager = models.BooleanField(default=False)
 
 
 class Lecture(models.Model):

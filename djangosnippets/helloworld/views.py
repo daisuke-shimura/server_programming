@@ -1,14 +1,20 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from helloworld.models import Helloworld
+from django.contrib.auth.views import LoginView, LogoutView
+from helloworld.models import Helloworld, User
 from helloworld.forms import SnippetForm
 
 # Create your views here.
 def top(request):
     snippets = Helloworld.objects.all()
-    context = {'snippets':snippets}
+    manager_exists = User.objects.filter(is_manager=True).exists()
+    context = {
+        'snippets': snippets,
+        'manager_exists': manager_exists,
+    }
     return render(request, 'snippets/top.html', context)
+
 
 @login_required  # このデコレータのある機能はログインが必要
 def snippet_new(request):
@@ -57,3 +63,34 @@ def signup_view(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'snippets/signup.html', {'form': form})
+
+
+#管理人新規登録
+from .forms import ManagerForm
+def manager_signup(request):
+    if request.method == 'POST':
+        form = ManagerForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_manager = True
+            user.save()
+            login(request, user)
+            return redirect('/')
+    else:
+        form = ManagerForm()
+    return render(request, 'snippets/manager/signup.html', {'form': form})
+
+
+#ログイン後の管理者判別
+from django.contrib.auth.views import LoginView
+
+class CustomLoginView(LoginView):
+    #template_name = 'registration/login.html'
+    def is_manager(self):
+        user = self.request.user
+        print("manager変数:", user.is_managers)
+        if user.is_manager:
+            return 'manager/'  # 管理者用ページへ
+        else:
+            return '/'  # 一般ユーザー用ページへ
+

@@ -8,6 +8,13 @@
 </div>
 
 {% if snippets %}
+{% if manager_exists %}
+    <p>管理人が存在します</p>
+    <a href="{% url 'login' %}">管理者ページ ログイン</a>
+{% else %}
+    <p>管理人が存在しません</p>
+    <a href="manager/signup">管理者ページ 新規登録</a>
+{% endif %}
 <table class="table">
     <thead>
     <tr>

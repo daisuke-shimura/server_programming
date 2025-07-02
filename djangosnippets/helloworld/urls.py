@@ -3,14 +3,22 @@ from helloworld import views
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
-from helloworld.views import signup_view
+from helloworld.views import signup_view, top, CustomLoginView
+#from helloworld.views import
 
 urlpatterns = [
+    path('', top, name='top'),
     path('new/', views.snippet_new, name='snippet_new'),
     path('<int:snippet_id>/', views.snippet_detail, name='snippet_detail'),
     path('<int:snippet_id>/edit/', views.snippet_edit, name='snippet_edit'),
-    path('login/', LoginView.as_view(redirect_authenticated_user=True, template_name='snippets/login.html'), name='login'),
+    #path('login/', LoginView.as_view(redirect_authenticated_user=True, template_name='snippets/login.html'), name='login'),
+    path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='snippets/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     #path('signup/', CreateView.as_view(template_name='snippets/signup.html',form_class=CustomUserCreationForm, success_url='/'), name='signup'),
     path('signup/', signup_view, name='signup'),
+
+    #管理者ページ
+    path('manager/signup', views.manager_signup, name='manager/signup'),
+    #path('manager/login', ManagerLoginView.as_view(), name='manager/login'),
+    #path('manager/logout/', ManagerLogoutView.as_view(), name='manager/logout'),
 ]
