@@ -82,6 +82,7 @@ def manager_signup(request):
 
 
 #ログイン後の管理者判別
+'''
 from django.contrib.auth.views import LoginView
 
 class CustomLoginView(LoginView):
@@ -89,7 +90,7 @@ class CustomLoginView(LoginView):
         user = self.request.user
         print("manager変数:", user.is_manager)
         if user.is_manager:
-            return 'manager/'  # 管理者用ページへ
+            return '/'  # 管理者用ページへ
         else:
             return '/'  # 一般ユーザー用ページへ
-
+'''

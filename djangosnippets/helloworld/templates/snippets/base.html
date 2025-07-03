@@ -13,11 +13,11 @@
     <header>
         {% if user.is_authenticated %}
             {% if user.is_manager %}
-                <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
+                <nav class="navbar navbar-expand flex-md-row navbar-dark bg-primary">
                     <div class="container justify-content-between">
                         <a href="/" class="navbar-brand">管理者ページ</a>
                         <ul class="navbar-nav mr-md-2">
-                            <form action="{% url 'logout' %}" method="post" name="f_logout">
+                            <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
                                 {% csrf_token %}
                                 <input type="hidden" name="logout" value="true">
                                 <a href="javascript:document.f_logout.submit()" class="logout nav-link">ログアウト</a>
@@ -30,10 +30,10 @@
                     <div class="container justify-content-between">
                         <a href="/" class="navbar-brand">Djangoスニペット</a>
                         <ul class="navbar-nav mr-md-2">
-                            <form action="{% url 'logout' %}" method="post" name="f_logout">
+                            <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
                                 {% csrf_token %}
-                                <input type="hidden" name="logout" value="true">
-                                <a href="javascript:document.f_logout.submit()" class="logout nav-link">ログアウト</a>
+                                <input type="hidden" value="logout">
+                                <a href="javascript:f_logout.submit()" class="logout nav-link">ログアウト</a>
                             </form>
                         </ul>
                     </div>
