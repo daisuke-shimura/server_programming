@@ -1,5 +1,5 @@
 from django import forms
-from helloworld.models import Helloworld
+from helloworld.models import Helloworld, Lecture
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 #from helloworld.models import Manager
@@ -27,3 +27,10 @@ class ManagerForm(UserCreationForm):
             user.save()
             User.objects.create(user=user)
         return user
+
+
+class LectureForm(forms.ModelForm):
+    class Meta:
+        model = Lecture
+        fields = ('name', 'body', 'university', 'school_year')
+

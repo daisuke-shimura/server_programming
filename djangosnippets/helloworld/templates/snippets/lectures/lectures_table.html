@@ -1,0 +1,25 @@
+<h2>講義一覧</h2>
+<table class="table table-hover table-bordered">
+    <thead class="table table-warning">
+        <tr>
+            <th>講義名</th>
+            <th>大学</th>
+            <th>学年</th>
+            <th>評価</th>
+            <th>レビュー数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lecture in lectures %}
+        <tr>
+            <td>
+                <a href="{% url 'lectures/show' lecture.id %}">{{ lecture.name }}</a>
+            </td>
+            <td>{{ lecture.university }}</td>
+            <td>{{ lecture.school_year }}</td>
+            <td>{% include 'lectures/star.html' %}</td>
+            <td>{{ lecture.reviews_count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

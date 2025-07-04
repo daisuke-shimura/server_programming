@@ -7,33 +7,16 @@
     <a class="btn btn-primary" href="{% url 'snippet_new' %}">投稿する</a>
 </div>
 
-{% if snippets %}
+{% if lectures %}
 {% if manager_exists %}
     <p>管理人が存在します</p>
-    <a href="{% url 'login' %}">管理者ページ ログイン</a>
+    <p>※いつか消す</p>
 {% else %}
     <p>管理人が存在しません</p>
     <a href="manager/signup">管理者ページ 新規登録</a>
 {% endif %}
-<table class="table">
-    <thead>
-    <tr>
-        <th>投稿者</th>
-        <th>投稿日</th>
-        <th>タイトル</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for snippet in snippets %}
-    <tr>
-        <th>{{ snippet.created_by.username }}</th>
-        <th>{{ snippet.created_at }}</th>
-        <th><a href="{% url 'snippet_detail' snippet.id %}">{{ snippet.title }}</a></th>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    {% include 'lectures/lectures_table.html' %}
 {% else %}
-<p>スニッペトはまだ投稿されていません．</p>
+<p>講義はまだ投稿されていません．</p>
 {% endif %}
 {% endblock %}

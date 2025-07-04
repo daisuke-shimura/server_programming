@@ -27,16 +27,16 @@ class User(AbstractUser):
 
 class Lecture(models.Model):
     name = models.CharField(max_length=128)
-    body = models.TextField()
-    university = models.CharField(max_length=128)
-    school_year = models.IntegerField()
-    average_score = models.FloatField()
-    reviews_count = models.IntegerField()
+    body = models.TextField(null=True, blank=True)
+    university = models.CharField(max_length=128, null=True, blank=True)
+    school_year = models.IntegerField(null=True, blank=True)
+    average_score = models.FloatField(null=True, blank=True)
+    reviews_count = models.IntegerField(default=0, blank=True)
 
 
 class Review(models.Model):
     title = models.CharField(max_length=128)
-    comment = models.TextField()
+    comment = models.TextField(null=True, blank=True)
     score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

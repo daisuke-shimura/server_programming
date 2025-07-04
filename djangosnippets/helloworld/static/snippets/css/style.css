@@ -11,3 +11,36 @@ main {
     display: flex;
     flex-direction: column;
 }
+
+.star{
+    color: #fbbf4f;
+}
+
+/*小数点にも対応ver*/
+.star-rating {
+  position: relative;
+  display: inline-block;
+  font-size: 24px;
+  color: #ccc; /* 背景の星（枠線） */
+}
+
+.star-rating::before {
+  content: '\f005\f005\f005\f005\f005'; /* 5つの星 */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.star-rating-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #fbbf4f;
+}
+
+.star-rating-fill::before {
+  content: '\f005\f005\f005\f005\f005'; /* 同じく5つの星 */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}

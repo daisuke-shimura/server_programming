@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="row">
+  <div class="col">
+    <h2>{{ lecture.name }}</h2>
+    {% if lecture.university %}
+    <h3>by {{ lecture.university }}</h3>
+    {% endif %}
+  </div>
+  <div class="col">
+    <a href="{% url 'lectures/edit' lecture.id %}">編集</a>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>大学</th>
+      <th>対称学年</th>
+      <th>評価</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ lecture.university }}</td>
+      <td>{{ lecture.school_year }}</td>
+      <td>{% include 'lectures/star.html' %}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5>講義内容</h5>
+<p>{{ lecture.body }}</p>
+
+<h5>レビュー：{{ lecture.reviews_count }}</h5>
+<!--レビュー一覧-->
+
+{% endblock %}

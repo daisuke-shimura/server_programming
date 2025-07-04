@@ -3,10 +3,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Djangoスニペット</title>
+    <title>ラクタンナビ</title>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'snippets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     {% block extraheader %}{% endblock %}
 </head>
 <body>
@@ -17,24 +18,31 @@
                     <div class="container justify-content-between">
                         <a href="/" class="navbar-brand">管理者ページ</a>
                         <ul class="navbar-nav mr-md-2">
-                            <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
-                                {% csrf_token %}
-                                <input type="hidden" name="logout" value="true">
-                                <a href="javascript:document.f_logout.submit()" class="logout nav-link">ログアウト</a>
-                            </form>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/new' %}">講義作成</a></li>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/index' %}">講義一覧</a></li>
+                            <li>
+                                <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="logout" value="true">
+                                    <a href="javascript:document.f_logout.submit()" class="logout nav-link">ログアウト</a>
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </nav>
             {% else %}
                 <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
                     <div class="container justify-content-between">
-                        <a href="/" class="navbar-brand">Djangoスニペット</a>
+                        <a href="/" class="navbar-brand">ラクタンナビ</a>
                         <ul class="navbar-nav mr-md-2">
-                            <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
-                                {% csrf_token %}
-                                <input type="hidden" value="logout">
-                                <a href="javascript:f_logout.submit()" class="logout nav-link">ログアウト</a>
-                            </form>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/index' %}">講義一覧</a></li>
+                            <li>
+                                <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="logout">
+                                    <a href="javascript:f_logout.submit()" class="logout nav-link">ログアウト</a>
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -42,8 +50,9 @@
         {% else %}
         <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
             <div class="container justify-content-between">
-                <a href="/" class="navbar-brand">Djangoスニペット</a>
+                <a href="/" class="navbar-brand">ラクタンナビ</a>
                 <ul class="navbar-nav mr-md-2">
+                    <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/index' %}">講義一覧</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">ログイン</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">会員登録</a></li>
                 </ul>
