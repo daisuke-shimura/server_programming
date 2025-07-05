@@ -13,11 +13,11 @@
         {% for lecture in lectures %}
         <tr>
             <td>
-                <a href="{% url 'lectures/show' lecture.id %}">{{ lecture.name }}</a>
+                <a href="{% url 'lectures_show' lecture.id %}">{{ lecture.name }}</a>
             </td>
             <td>{{ lecture.university }}</td>
             <td>{{ lecture.school_year }}</td>
-            <td>{% include 'lectures/star.html' %}</td>
+            <td>{% include 'lectures/star.html' with score=lecture.average_score %} {{ lecture.average_score }}</td>
             <td>{{ lecture.reviews_count }}</td>
         </tr>
         {% endfor %}

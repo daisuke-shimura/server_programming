@@ -2,14 +2,14 @@
 
 {% block main %}
 <div class="row">
-  <div class="col">
+  <div class="col d-flex align-items-end">
     <h2>{{ lecture.name }}</h2>
     {% if lecture.university %}
-    <h3>by {{ lecture.university }}</h3>
+    <h4 class="ms-3">by {{ lecture.university }}</h4>
     {% endif %}
   </div>
   <div class="col">
-    <a href="{% url 'lectures/edit' lecture.id %}">編集</a>
+    <a href="{% url 'lectures_edit' lecture.id %}" class="btn btn-primary">編集</a>
   </div>
 </div>
 
@@ -30,10 +30,30 @@
   </tbody>
 </table>
 
-<h5>講義内容</h5>
+<h4>講義内容</h4>
 <p>{{ lecture.body }}</p>
 
-<h5>レビュー：{{ lecture.reviews_count }}</h5>
+<hr>
+
+<div class="d-flex mb-3">
+  <h4>レビュー：{{ lecture.reviews_count }}</h4>
+  <a href="{% url 'reviews_new' lecture.id %}" class="btn btn-success ms-3">新規投稿</a>
+</div>
 <!--レビュー一覧-->
+{% for review in reviews %}
+<div>
+  {{ review.user.username }}
+  <a href="{% url 'reviews_edit' lecture.id review.id %}" class="btn btn-primary btn-sm ms-3">編集</a>
+  <form action="{% url 'review_delete' lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger btn-sm">削除</button>
+  </form>
+  <p>
+    {% include 'lectures/star.html' with score=review.score %}
+    {{ review.title }}
+  </p>
+  <p>{{ review.comment }}</p>
+</div>
+{% endfor %}
 
 {% endblock %}

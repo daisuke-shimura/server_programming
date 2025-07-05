@@ -1,5 +1,5 @@
 from django import forms
-from helloworld.models import Helloworld, Lecture
+from helloworld.models import Helloworld, Lecture, Review
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 #from helloworld.models import Manager
@@ -33,4 +33,10 @@ class LectureForm(forms.ModelForm):
     class Meta:
         model = Lecture
         fields = ('name', 'body', 'university', 'school_year')
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ('title', 'comment', 'score')
 

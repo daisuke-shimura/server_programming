@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from helloworld.models import Helloworld, User, Lecture
+from helloworld.models import Helloworld, User, Lecture, Review
 from helloworld.forms import SnippetForm
 
 # Create your views here.
@@ -61,7 +61,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # 自動ログイン
-            return redirect('/')
+            return redirect('lectures_index')
     else:
         form = CustomUserCreationForm()
     return render(request, 'snippets/signup.html', {'form': form})
@@ -106,7 +106,12 @@ def lecture_index(request):
 
 def lecture_show(request, lecture_id):
     lecture = get_object_or_404(Lecture, pk=lecture_id)
-    return render(request, 'snippets/lectures/show.html', {'lecture': lecture})
+    reviews = lecture.review_set.all()
+    context = {
+        'lecture': lecture,
+        'reviews': reviews
+    }
+    return render(request, 'snippets/lectures/show.html', context)
 
 def lecture_edit(request, lecture_id):
     lecture = get_object_or_404(Lecture, pk=lecture_id)
@@ -116,10 +121,58 @@ def lecture_edit(request, lecture_id):
         form = LectureForm(request.POST, instance=lecture)
         if form.is_valid():
             form.save()
-            return redirect('lectures/show', lecture_id=lecture_id)
+            return redirect('lectures_show', lecture_id=lecture_id)
     else:
         form = LectureForm(instance=lecture)
     return render(request, 'snippets/lectures/edit.html', {'form': form})
+
+
+#レビュー
+from .forms import ReviewForm
+from django.db.models import Avg
+def review_new(request, lecture_id):
+    lecture = get_object_or_404(Lecture, id=lecture_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.lecture = lecture
+            review.user = request.user
+            review.save()
+            lecture.reviews_count += 1
+            lecture.average_score = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+            lecture.save()
+            return redirect('lectures_show', lecture_id=lecture.id)
+    else:
+        form = ReviewForm()
+    return render(request, 'snippets/reviews/new.html', {'form': form})
+
+def review_edit(request, lecture_id, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+    lecture = get_object_or_404(Lecture, id=lecture_id)
+    #if review.created_by_id != request.user.id:
+        #return HttpResponseForbidden('このスニペットの編集は許可されていません．')
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            lecture.average_score = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+            lecture.save()
+            return redirect('lectures_show', lecture_id=lecture_id)
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'snippets/reviews/edit.html', {'form': form})
+
+def review_delete(request, lecture_id, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+    lecture = get_object_or_404(Lecture, id=lecture_id)
+    if request.method == 'POST':
+        review.delete()
+        lecture.average_score = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+        lecture.save()
+        return redirect('lectures_show', lecture_id=lecture_id)
+    else:
+        return redirect('lectures_show', lecture_id=lecture_id)
 
 #ログイン後の管理者判別
 '''

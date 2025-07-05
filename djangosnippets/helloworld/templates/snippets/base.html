@@ -18,13 +18,13 @@
                     <div class="container justify-content-between">
                         <a href="/" class="navbar-brand">管理者ページ</a>
                         <ul class="navbar-nav mr-md-2">
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/new' %}">講義作成</a></li>
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/index' %}">講義一覧</a></li>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_new' %}"><i class="fa-solid fa-square-plus"></i> 講義作成</a></li>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
                             <li>
                                 <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
                                     {% csrf_token %}
                                     <input type="hidden" name="logout" value="true">
-                                    <a href="javascript:document.f_logout.submit()" class="logout nav-link">ログアウト</a>
+                                    <a href="javascript:document.f_logout.submit()" class="logout nav-link"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</a>
                                 </form>
                             </li>
                         </ul>
@@ -35,12 +35,12 @@
                     <div class="container justify-content-between">
                         <a href="/" class="navbar-brand">ラクタンナビ</a>
                         <ul class="navbar-nav mr-md-2">
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/index' %}">講義一覧</a></li>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
                             <li>
                                 <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
                                     {% csrf_token %}
                                     <input type="hidden" value="logout">
-                                    <a href="javascript:f_logout.submit()" class="logout nav-link">ログアウト</a>
+                                    <a href="javascript:f_logout.submit()" class="logout nav-link"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</a>
                                 </form>
                             </li>
                         </ul>
@@ -52,9 +52,9 @@
             <div class="container justify-content-between">
                 <a href="/" class="navbar-brand">ラクタンナビ</a>
                 <ul class="navbar-nav mr-md-2">
-                    <li><a class="nav-link text-white fw-bold" href="{% url 'lectures/index' %}">講義一覧</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">ログイン</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">会員登録</a></li>
+                    <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> 会員登録</a></li>
                 </ul>
             </div>
         </nav>
