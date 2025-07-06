@@ -99,14 +99,25 @@ def lecture_new(request):
 
 def lecture_index(request):
     #lectures = Lecture.objects.all()
-    search = request.GET.get('q')  # 検索キーワード
-    if search:
-        lectures = Lecture.objects.filter(name__icontains=search)
-    else:
-        lectures = Lecture.objects.all()
+    search_name = request.GET.get('q_name')  # 検索キーワード
+    search_year = request.GET.get('q_year')
+    search_university = request.GET.get('q_university')
+    lectures = Lecture.objects.all()
+
+    if search_name:
+        lectures = lectures.filter(name__icontains=search_name)
+
+    if search_year:
+        lectures = lectures.filter(school_year=int(search_year))
+
+    if search_university:
+        lectures = lectures.filter(university__icontains=search_university)
+
     context = {
         'lectures': lectures,
-        'search': search,
+        'search_name': search_name,
+        'search_year': search_year,
+        'search_university': search_university,
     }
     return render(request, 'snippets/lectures/index.html', context)
 
