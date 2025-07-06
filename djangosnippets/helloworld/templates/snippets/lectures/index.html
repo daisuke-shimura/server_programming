@@ -2,6 +2,16 @@
 {% load django_bootstrap5 %}
 {% block main %}
 
+<div class="row">
+    <div class="col col-md-6"></div>
+    <div class="col col-md-6">
+        <form method="get" class="form-inline mb-3 d-flex">
+          <input type="text" name="q" value="{{ search }}" placeholder="講義名で検索" class="form-control mr-2">
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+</div>
+
     {% include 'lectures/lectures_table.html' %}
 
     {% load star_filters %}

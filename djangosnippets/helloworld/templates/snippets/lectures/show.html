@@ -46,7 +46,7 @@
   <a href="{% url 'reviews_edit' lecture.id review.id %}" class="btn btn-primary btn-sm ms-3">編集</a>
   <form action="{% url 'review_delete' lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger btn-sm">削除</button>
+    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
   </form>
   <p>
     {% include 'lectures/star.html' with score=review.score %}

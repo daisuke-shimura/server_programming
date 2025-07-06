@@ -98,9 +98,15 @@ def lecture_new(request):
 
 
 def lecture_index(request):
-    lectures = Lecture.objects.all()
+    #lectures = Lecture.objects.all()
+    search = request.GET.get('q')  # 検索キーワード
+    if search:
+        lectures = Lecture.objects.filter(name__icontains=search)
+    else:
+        lectures = Lecture.objects.all()
     context = {
         'lectures': lectures,
+        'search': search,
     }
     return render(request, 'snippets/lectures/index.html', context)
 
