@@ -104,11 +104,6 @@ def lecture_index(request):
     search_university = request.GET.get('q_university') or ""
     sort = request.GET.get('sort')
 
-    #ソート
-    #多い順
-    #lectures = Lecture.objects.order_by('-reviews_count')
-    #少ない順
-    #lectures = Lecture.objects.order_by('reviews_count')
     lectures = Lecture.objects.all()
 
     if search_name:
@@ -122,13 +117,13 @@ def lecture_index(request):
 
     #並び替え
     if sort == 'review_count_desc':
-        lectures = lectures.order_by('-reviews_count')  # 降順
+        lectures = lectures.order_by('-reviews_count')  # レビュー高い順
     elif sort == 'review_count_asc':
-        lectures = lectures.order_by('reviews_count')  # 昇順
+        lectures = lectures.order_by('reviews_count')  # レビュー低い順
     elif sort == 'average_score_desc':
-        lectures = lectures.order_by('-average_score')  # 降順
+        lectures = lectures.order_by('-average_score')  # 評価高い順
     elif sort == 'average_score_asc':
-        lectures = lectures.order_by('average_score')  # 昇順
+        lectures = lectures.order_by('average_score')  # 評価低い順
 
     context = {
         'lectures': lectures,
@@ -208,6 +203,22 @@ def review_delete(request, lecture_id, review_id):
         return redirect('lectures_show', lecture_id=lecture_id)
     else:
         return redirect('lectures_show', lecture_id=lecture_id)
+
+
+#ユーザ
+def user_index(request):
+    users = User.objects.all()
+
+    context = {
+        'users': users,
+    }
+    return render(request, 'snippets/users/index.html', context)
+
+def user_active_switch(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    user.is_active = not user.is_active
+    user.save()
+    return redirect('users_index')
 
 #ログイン後の管理者判別
 '''

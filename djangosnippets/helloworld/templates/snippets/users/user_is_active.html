@@ -1,0 +1,21 @@
+{% if user.is_active %}
+    <span class="text-success fw-bold">有効</span>
+    <form method="post" action="{% url 'users_active_switch' user.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit"
+                class="btn btn-sm btn-danger ms-2"
+                onclick="return confirm('本当に{{ user.username }}さんのアカウントを無効にしますか？')">
+                無効にする
+        </button>
+    </form>
+{% else %}
+    <span class="text-secondary fw-bold">無効</span>
+    <form method="post" action="{% url 'users_active_switch' user.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit"
+                class="btn btn-sm btn-success ms-2"
+                onclick="return confirm('{{ user.username }}さんのアカウントを有効にしますか？')">
+            有効にする
+        </button>
+    </form>
+{% endif %}

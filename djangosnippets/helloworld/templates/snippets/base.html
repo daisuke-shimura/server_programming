@@ -20,6 +20,7 @@
                         <ul class="navbar-nav mr-md-2">
                             <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_new' %}"><i class="fa-solid fa-square-plus"></i> 講義作成</a></li>
                             <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'users_index' %}"><i class="fa-solid fa-users"></i> 会員一覧</a></li>
                             <li>
                                 <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
                                     {% csrf_token %}
