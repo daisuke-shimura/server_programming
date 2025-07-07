@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="row">
+  <div class="col d-flex align-items-end">
+    <h2>{{ user.username }}さんのマイページ</h2>
+  </div>
+  <div class="col">
+    <a href="{% url 'users_edit' user.id %}" class="btn btn-primary">編集</a>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col">名前</div>
+    <div class="col">{{ user.username }}</div>
+</div>
+<div class="row">
+    <div class="col">メールアドレス</div>
+    <div class="col">{{ user.email }}</div>
+</div>
+<div class="row">
+    <div class="col">大学</div>
+    <div class="col">{{ user.university }}</div>
+</div>
+<div class="row">
+    <div class="col">学年</div>
+    <div class="col">{{ user.school_year }}</div>
+</div>
+
+{% endblock %}

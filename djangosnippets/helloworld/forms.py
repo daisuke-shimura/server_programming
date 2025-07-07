@@ -11,10 +11,17 @@ class SnippetForm(forms.ModelForm):
 
 
 User = get_user_model()
+#ユーザ登録
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'school_year', 'university')
+
+#ユーザ編集
+class CustomUserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'school_year', 'university']
 
 
 class ManagerForm(UserCreationForm):

@@ -51,10 +51,10 @@ def snippet_detail(request, snippet_id):
     snippet = get_object_or_404(Helloworld, pk=snippet_id)
     return render(request, 'snippets/snippet_detail.html', {'snippet': snippet})
 
-
+#会員に関すること
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm
-
+#新規登録
 def signup_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -65,7 +65,6 @@ def signup_view(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'snippets/signup.html', {'form': form})
-
 
 #管理人新規登録
 from .forms import ManagerForm
@@ -81,6 +80,43 @@ def manager_signup(request):
     else:
         form = ManagerForm()
     return render(request, 'snippets/manager/signup.html', {'form': form})
+
+#ユーザ一覧
+def user_index(request):
+    users = User.objects.all()
+
+    context = {
+        'users': users,
+    }
+    return render(request, 'snippets/users/index.html', context)
+
+#垢BAN
+def user_active_switch(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    user.is_active = not user.is_active
+    user.save()
+    return redirect('users_index')
+
+#マイページ
+def user_show(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    context = {
+        'user': user,
+    }
+    return render(request, 'snippets/users/show.html', context)
+
+#会員情報編集
+from .forms import CustomUserEditForm
+def user_edit(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = CustomUserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('users_show', user_id=user_id)
+    else:
+        form = CustomUserEditForm(instance=user)
+    return render(request, 'snippets/users/edit.html', {'form': form})
 
 
 #講義
@@ -204,21 +240,6 @@ def review_delete(request, lecture_id, review_id):
     else:
         return redirect('lectures_show', lecture_id=lecture_id)
 
-
-#ユーザ
-def user_index(request):
-    users = User.objects.all()
-
-    context = {
-        'users': users,
-    }
-    return render(request, 'snippets/users/index.html', context)
-
-def user_active_switch(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    user.is_active = not user.is_active
-    user.save()
-    return redirect('users_index')
 
 #ログイン後の管理者判別
 '''

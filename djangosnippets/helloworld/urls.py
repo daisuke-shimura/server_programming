@@ -28,6 +28,10 @@ urlpatterns = [
     path('lectures/<int:lecture_id>/reviews/<int:review_id>/edit/', views.review_edit, name='reviews_edit'),
     path('lectures/<int:lecture_id>/reviews/<int:review_id>/delete/', views.review_delete, name='review_delete'),
 
+    #ユーザに関するページ（マイページ, 編集）
+    path('users/<int:user_id>/', views.user_show, name='users_show'),
+    path('users/<int:user_id>/edit/', views.user_edit, name='users_edit'),
+
 #管理者ページ
     path('manager/signup/', views.manager_signup, name='manager_signup'),
 
@@ -35,7 +39,7 @@ urlpatterns = [
     path('manager/lectures/new/', views.lecture_new, name='lectures_new'),
     path('manager/lectures/<int:lecture_id>/edit/', views.lecture_edit, name='lectures_edit'),
 
-    #ユーザに関するページ
+    #ユーザに関するページ（一覧, 垢BAN）
     path('manager/users/', views.user_index, name='users_index'),
     path('users/<int:user_id>/active_switch/', views.user_active_switch, name='users_active_switch')
 

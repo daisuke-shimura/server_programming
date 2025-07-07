@@ -37,6 +37,7 @@
                         <a href="/" class="navbar-brand">ラクタンナビ</a>
                         <ul class="navbar-nav mr-md-2">
                             <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'users_show' request.user.id %}"><i class="fa-solid fa-user"></i> マイページ</a></li>
                             <li>
                                 <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
                                     {% csrf_token %}
