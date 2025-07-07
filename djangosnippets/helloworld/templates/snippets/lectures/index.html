@@ -18,6 +18,24 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col-6 offset-6 col-md-4 offset-md-8">
+        <form method="get" class="form-inline mb-3">
+          <!-- 検索条件を hidden で保持 -->
+          <input type="hidden" name="q_name" value="{{ search_name }}">
+          <input type="hidden" name="q_year" value="{{ search_year }}">
+          <input type="hidden" name="q_university" value="{{ search_university }}">
+
+          <select name="sort" class="form-control mr-2" onchange="this.form.submit()">
+            <option value="">並び替え</option>
+            <option value="review_count_desc" {% if sort == "review_count_desc" %}selected{% endif %}>レビューが多い順</option>
+            <option value="review_count_asc" {% if sort == "review_count_asc" %}selected{% endif %}>レビューが少ない順</option>
+            <option value="average_score_desc" {% if sort == "average_score_desc" %}selected{% endif %}>評価が高い順</option>
+            <option value="average_score_asc" {% if sort == "average_score_asc" %}selected{% endif %}>評価が低い順</option>
+          </select>
+        </form>
+    </div>
+</div>
 
     {% include 'lectures/lectures_table.html' %}
 

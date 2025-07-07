@@ -99,9 +99,16 @@ def lecture_new(request):
 
 def lecture_index(request):
     #lectures = Lecture.objects.all()
-    search_name = request.GET.get('q_name')  # 検索キーワード
-    search_year = request.GET.get('q_year')
-    search_university = request.GET.get('q_university')
+    search_name = request.GET.get('q_name') or "" # 検索キーワード
+    search_year = request.GET.get('q_year') or ""
+    search_university = request.GET.get('q_university') or ""
+    sort = request.GET.get('sort')
+
+    #ソート
+    #多い順
+    #lectures = Lecture.objects.order_by('-reviews_count')
+    #少ない順
+    #lectures = Lecture.objects.order_by('reviews_count')
     lectures = Lecture.objects.all()
 
     if search_name:
@@ -113,11 +120,22 @@ def lecture_index(request):
     if search_university:
         lectures = lectures.filter(university__icontains=search_university)
 
+    #並び替え
+    if sort == 'review_count_desc':
+        lectures = lectures.order_by('-reviews_count')  # 降順
+    elif sort == 'review_count_asc':
+        lectures = lectures.order_by('reviews_count')  # 昇順
+    elif sort == 'average_score_desc':
+        lectures = lectures.order_by('-average_score')  # 降順
+    elif sort == 'average_score_asc':
+        lectures = lectures.order_by('average_score')  # 昇順
+
     context = {
         'lectures': lectures,
         'search_name': search_name,
         'search_year': search_year,
         'search_university': search_university,
+        'sort': sort,
     }
     return render(request, 'snippets/lectures/index.html', context)
 
