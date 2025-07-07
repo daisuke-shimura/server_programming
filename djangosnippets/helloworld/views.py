@@ -100,8 +100,10 @@ def user_active_switch(request, user_id):
 #マイページ
 def user_show(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    reviews = user.review_set.all()
     context = {
         'user': user,
+        'reviews': reviews,
     }
     return render(request, 'snippets/users/show.html', context)
 
@@ -175,7 +177,7 @@ def lecture_show(request, lecture_id):
     reviews = lecture.review_set.all()
     context = {
         'lecture': lecture,
-        'reviews': reviews
+        'reviews': reviews,
     }
     return render(request, 'snippets/lectures/show.html', context)
 

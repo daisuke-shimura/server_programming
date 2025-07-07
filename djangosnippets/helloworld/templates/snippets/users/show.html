@@ -6,7 +6,7 @@
     <h2>{{ user.username }}さんのマイページ</h2>
   </div>
   <div class="col">
-    <a href="{% url 'users_edit' user.id %}" class="btn btn-primary">編集</a>
+    <a href="{% url 'users_edit' user.id %}" class="btn btn-primary"><i class="fa-solid fa-user-pen"></i> 編集</a>
   </div>
 </div>
 
@@ -26,5 +26,19 @@
     <div class="col">学年</div>
     <div class="col">{{ user.school_year }}</div>
 </div>
+
+<hr>
+
+<h2>投稿したレビュー</h2>
+{% for review in reviews %}
+<div>
+    <a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
+    <p>
+        {% include 'lectures/star.html' with score=review.score %}
+        {{ review.title }}
+    </p>
+    <p>{{ review.comment }}</p>
+</div>
+{% endfor %}
 
 {% endblock %}
