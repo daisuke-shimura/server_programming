@@ -39,9 +39,4 @@
 
     {% include 'lectures/lectures_table.html' %}
 
-    {% load star_filters %}
-    <div class="star-rating">
-      <div class="star-rating-fill" style="width: {{ average_score|rating_to_percent }}%;"></div>
-    </div>
-
 {% endblock %}

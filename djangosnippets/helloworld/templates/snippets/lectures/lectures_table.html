@@ -17,7 +17,13 @@
             </td>
             <td>{{ lecture.university }}</td>
             <td>{{ lecture.school_year }}</td>
-            <td>{% include 'lectures/star.html' with score=lecture.average_score %} {{ lecture.average_score }}</td>
+            <td>
+                {% load star_filters %}
+                <div class="star-rating">
+                  <div class="star-rating-fill" style="width: {{ lecture.average_score|rating_to_percent }}%;"></div>
+                </div>
+                {{ lecture.average_score }}
+            </td>
             <td>{{ lecture.reviews_count }}</td>
         </tr>
         {% endfor %}

@@ -20,14 +20,15 @@ main {
 .star-rating {
   position: relative;
   display: inline-block;
-  font-size: 24px;
+  font-size: 18px;
   color: #ccc; /* 背景の星（枠線） */
 }
 
 .star-rating::before {
   content: '\f005\f005\f005\f005\f005'; /* 5つの星 */
   font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
+  font-weight: 400;
+  color: #fbbf4f;
 }
 
 .star-rating-fill {

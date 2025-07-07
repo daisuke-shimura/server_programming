@@ -208,7 +208,8 @@ def review_new(request, lecture_id):
             review.user = request.user
             review.save()
             lecture.reviews_count += 1
-            lecture.average_score = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+            average = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+            lecture.average_score = round(average, 2)
             lecture.save()
             return redirect('lectures_show', lecture_id=lecture.id)
     else:
