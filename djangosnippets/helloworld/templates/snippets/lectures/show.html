@@ -8,6 +8,7 @@
     <h4 class="ms-3">by {{ lecture.university }}</h4>
     {% endif %}
   </div>
+  {% if request.user.is_manager == True %}
   <div class="col">
     <a href="{% url 'lectures_edit' lecture.id %}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> 編集</a>
     <form action="{% url 'lectures_delete' lecture.id %}" method="POST" onsubmit="return confirm('本当に「{{ lecture.name }}」の講義を削除しますか？');" class="d-inline-block">
@@ -15,6 +16,7 @@
       <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> 削除</button>
     </form>
   </div>
+  {% endif %}
 </div>
 
 <table class="table">
@@ -86,15 +88,17 @@
 {% for review in valid_reviews %}
 <div class="row">
   <div class="col mt-5">
-    <span class="review-username" data-user-id="{{ review.user.id }}">
+    <a href="#" class="review-username link-dark link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" data-user-id="{{ review.user.id }}">
       <i class="fa-solid fa-user"></i>
       {{ review.user.username }}
-    </span>
+    </a>
+    {% if review.user == request.user %}
     <a href="{% url 'reviews_edit' lecture.id review.id %}" class="btn btn-primary ms-3"><i class="fa-solid fa-pen"></i></a>
     <form action="{% url 'review_delete' lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
       {% csrf_token %}
       <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
     </form>
+    {% endif %}
     <p>
       {% include 'lectures/_star.html' with score=review.score %}
       {{ review.title|default:"タイトルなし" }}

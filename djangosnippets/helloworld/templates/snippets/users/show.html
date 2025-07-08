@@ -30,7 +30,7 @@
 <hr>
 
 <h2>投稿したレビュー</h2>
-{% if lectures %}
+{% if reviews %}
 {% for review in reviews %}
 <div>
     <a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
