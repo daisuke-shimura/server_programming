@@ -37,6 +37,6 @@ urlpatterns = [
 
     #ユーザに関するページ（一覧, 垢BAN）
     path('manager/users/', views.user_index, name='users_index'),
-    path('users/<int:user_id>/active_switch/', views.user_active_switch, name='users_active_switch')
+    path('manager/users/<int:user_id>/active_switch/', views.user_active_switch, name='users_active_switch')
 
 ]

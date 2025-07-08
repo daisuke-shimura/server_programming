@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from helloworld.models import Helloworld, User, Lecture, Review
 from helloworld.forms import SnippetForm
+from django.contrib import messages
 
 # Create your views here.
 def top(request):
@@ -95,8 +96,12 @@ def user_active_switch(request, user_id):
     return redirect('users_index')
 
 #マイページ
+@login_required
 def user_show(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    if user != request.user:
+        messages.error(request, 'このページのアクセスは許可されていません。')
+        return redirect('top')
     reviews = user.review_set.all()
     context = {
         'user': user,
@@ -114,8 +119,12 @@ def other_user(request, user_id):
 
 #会員情報編集
 from .forms import CustomUserEditForm
+@login_required
 def user_edit(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    if user != request.user:
+        messages.error(request, 'このページの編集は許可されていません。')
+        return redirect('top')
     if request.method == 'POST':
         form = CustomUserEditForm(request.POST, instance=user)
         if form.is_valid():
@@ -237,6 +246,7 @@ def lecture_delete(request, lecture_id):
 #レビュー
 from .forms import ReviewForm
 from django.db.models import Avg
+@login_required
 def review_new(request, lecture_id):
     lecture = get_object_or_404(Lecture, id=lecture_id)
     if request.method == 'POST':
@@ -255,11 +265,13 @@ def review_new(request, lecture_id):
         form = ReviewForm()
     return render(request, 'snippets/reviews/new.html', {'form': form})
 
+@login_required
 def review_edit(request, lecture_id, review_id):
     review = get_object_or_404(Review, pk=review_id)
     lecture = get_object_or_404(Lecture, id=lecture_id)
-    #if review.created_by_id != request.user.id:
-        #return HttpResponseForbidden('このスニペットの編集は許可されていません．')
+    if review.user != request.user:
+        messages.error(request, 'このレビューの編集は許可されていません。')
+        return redirect('lectures_show', lecture_id=lecture_id)
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
@@ -272,9 +284,13 @@ def review_edit(request, lecture_id, review_id):
         form = ReviewForm(instance=review)
     return render(request, 'snippets/reviews/edit.html', {'form': form})
 
+@login_required
 def review_delete(request, lecture_id, review_id):
     review = get_object_or_404(Review, pk=review_id)
     lecture = get_object_or_404(Lecture, id=lecture_id)
+    if review.user != request.user:
+        messages.error(request, 'このレビューの削除は許可されていません。')
+        return redirect('lectures_show', lecture_id=lecture_id)
     if request.method == 'POST':
         review.delete()
         lecture.reviews_count -= 1

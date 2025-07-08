@@ -50,7 +50,7 @@ main {
 .review-meter {
   width: 200px;
   height: 20px;
-  border: 1px solid #6c757d;
+  border: 2px solid #6c757d;
   border-radius: 3px;
   overflow: hidden;
   display: inline-block;
@@ -60,7 +60,6 @@ main {
 .review-meter-fill {
   height: 100%;
   background-color: #fbbf4f;
-  border-radius: 3px 0 0 3px;
 }
 
 /*他のユーザの詳細（JavaScript）*/
