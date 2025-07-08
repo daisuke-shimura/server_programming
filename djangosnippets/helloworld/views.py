@@ -236,6 +236,14 @@ def lecture_edit(request, lecture_id):
         form = LectureForm(instance=lecture)
     return render(request, 'snippets/lectures/edit.html', {'form': form})
 
+def lecture_delete(request, lecture_id):
+    lecture = get_object_or_404(Lecture, pk=lecture_id)
+    if request.method == 'POST':
+        lecture.delete()
+        return redirect('lectures_index')
+    else:
+        return redirect('lectures_index')
+
 
 #レビュー
 from .forms import ReviewForm

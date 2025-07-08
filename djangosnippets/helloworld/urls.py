@@ -34,9 +34,10 @@ urlpatterns = [
 #管理者ページ
     path('manager/signup/', views.manager_signup, name='manager_signup'),
 
-    #講義に関するページ（新規作成, 編集）
+    #講義に関するページ（新規作成, 編集, 削除）
     path('manager/lectures/new/', views.lecture_new, name='lectures_new'),
     path('manager/lectures/<int:lecture_id>/edit/', views.lecture_edit, name='lectures_edit'),
+    path('manager/lectures/<int:lecture_id>/delete/', views.lecture_delete, name='lectures_delete'),
 
     #ユーザに関するページ（一覧, 垢BAN）
     path('manager/users/', views.user_index, name='users_index'),
