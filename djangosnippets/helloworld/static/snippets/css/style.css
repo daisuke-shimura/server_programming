@@ -64,19 +64,36 @@ main {
 }
 
 /*他のユーザの詳細（JavaScript）*/
+/*
 .other-user{
   position: relative;
   margin-top: 5px;
   background: #f0f0f0;
   padding: 10px;
   width: 250px;
-  transform: translateX(100%); /* 初期は右にオフセット */
+  transform: translateX(100%);
   opacity: 0;
   transition: transform 0.4s ease, opacity 0.4s ease;
-  pointer-events: none; /* hoverされてない間はマウスイベント無効 */
+  pointer-events: none;
 }
 .review-username:hover + .other-user {
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
+  box-shadow: 10px 0 10px;
+}*/
+
+
+.other-user {
+  width: 300px;
+  padding: 15px;
+  display: block ;
+  border-radius: 10px;
+  position: static;
+  background: #ffffff;
+  box-shadow: 0 0 15px;
+}
+
+.user-popup-content {
+
 }
