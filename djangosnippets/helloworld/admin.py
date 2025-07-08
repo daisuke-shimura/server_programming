@@ -8,6 +8,5 @@ from .models import User, Lecture, Review
 admin.site.register(Helloworld)
 
 admin.site.register(User)
-#admin.site.register(Manager)
 admin.site.register(Lecture)
 admin.site.register(Review)

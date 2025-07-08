@@ -1,11 +1,7 @@
 from django.urls import path
 from helloworld import views
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import CreateView
 from helloworld.views import signup_view, top
-#CustomLoginView
-#from helloworld.views import
 
 urlpatterns = [
 #一般ユーザ

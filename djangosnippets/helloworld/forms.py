@@ -2,7 +2,6 @@ from django import forms
 from helloworld.models import Helloworld, Lecture, Review
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-#from helloworld.models import Manager
 
 class SnippetForm(forms.ModelForm):
     class Meta:

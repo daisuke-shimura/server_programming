@@ -1,17 +1,14 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView
 from helloworld.models import Helloworld, User, Lecture, Review
 from helloworld.forms import SnippetForm
 
 # Create your views here.
 def top(request):
-    #snippets = Helloworld.objects.all()
     lectures = Lecture.objects.all()
     manager_exists = User.objects.filter(is_manager=True).exists()
     context = {
-        #'snippets': snippets,
         'lectures': lectures,
         'manager_exists': manager_exists,
     }
@@ -204,21 +201,13 @@ def lecture_show(request, lecture_id):
         1: score1_count,
     }
 
-    review_range = [5, 4, 3, 2, 1]
-
     valid_reviews = [review for review in reviews if review.title or review.comment]
 
     context = {
         'lecture': lecture,
         'reviews': reviews,
         'search_score': search_score,
-        #'score1_count': score1_count,
-        #'score2_count': score2_count,
-        #'score3_count': score3_count,
-        #'score4_count': score4_count,
-        #'score5_count': score5_count,
         'score_counts': score_counts,
-        'review_range': review_range,
         'valid_reviews': valid_reviews,
     }
     return render(request, 'snippets/lectures/show.html', context)
