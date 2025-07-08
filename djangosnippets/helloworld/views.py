@@ -107,6 +107,14 @@ def user_show(request, user_id):
     }
     return render(request, 'snippets/users/show.html', context)
 
+#他のユーザの詳細
+def other_user(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    context = {
+        'user': user,
+    }
+    return render(request, 'snippets/users/_other_user.html', context)
+
 #会員情報編集
 from .forms import CustomUserEditForm
 def user_edit(request, user_id):
@@ -174,10 +182,44 @@ def lecture_index(request):
 
 def lecture_show(request, lecture_id):
     lecture = get_object_or_404(Lecture, pk=lecture_id)
-    reviews = lecture.review_set.all()
+    q_score = request.GET.get('q_score')
+    search_score = int(q_score) if q_score is not None else ""
+
+    if search_score:
+        reviews = lecture.review_set.filter(score=search_score)
+    else:
+        reviews = lecture.review_set.all()
+
+    score1_count = lecture.review_set.filter(score=1).count()
+    score2_count = lecture.review_set.filter(score=2).count()
+    score3_count = lecture.review_set.filter(score=3).count()
+    score4_count = lecture.review_set.filter(score=4).count()
+    score5_count = lecture.review_set.filter(score=5).count()
+
+    score_counts = {
+        5: score5_count,
+        4: score4_count,
+        3: score3_count,
+        2: score2_count,
+        1: score1_count,
+    }
+
+    review_range = [5, 4, 3, 2, 1]
+
+    valid_reviews = [review for review in reviews if review.title or review.comment]
+
     context = {
         'lecture': lecture,
         'reviews': reviews,
+        'search_score': search_score,
+        #'score1_count': score1_count,
+        #'score2_count': score2_count,
+        #'score3_count': score3_count,
+        #'score4_count': score4_count,
+        #'score5_count': score5_count,
+        'score_counts': score_counts,
+        'review_range': review_range,
+        'valid_reviews': valid_reviews,
     }
     return render(request, 'snippets/lectures/show.html', context)
 
@@ -225,7 +267,8 @@ def review_edit(request, lecture_id, review_id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            lecture.average_score = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+            average = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+            lecture.average_score = round(average, 2)
             lecture.save()
             return redirect('lectures_show', lecture_id=lecture_id)
     else:
@@ -237,7 +280,9 @@ def review_delete(request, lecture_id, review_id):
     lecture = get_object_or_404(Lecture, id=lecture_id)
     if request.method == 'POST':
         review.delete()
-        lecture.average_score = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+        lecture.reviews_count -= 1
+        average = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
+        lecture.average_score = round(average, 2)
         lecture.save()
         return redirect('lectures_show', lecture_id=lecture_id)
     else:

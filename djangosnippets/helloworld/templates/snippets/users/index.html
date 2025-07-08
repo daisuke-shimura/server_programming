@@ -30,7 +30,7 @@
             <td>{{ user.email }}</td>
             <td>{{ user.university }}</td>
             <td>{{ user.school_year }}</td>
-            <td>{% include 'users/user_is_active.html' %}</td>
+            <td>{% include 'users/_user_is_active.html' %}</td>
         </tr>
         {% else %}
         <tr>
@@ -39,7 +39,7 @@
             <td>{{ user.email }}</td>
             <td>{{ user.university }}</td>
             <td>{{ user.school_year }}</td>
-            <td>{% include 'users/user_is_active.html' %}</td>
+            <td>{% include 'users/_user_is_active.html' %}</td>
         </tr>
         {% endif %}
         {% endfor %}

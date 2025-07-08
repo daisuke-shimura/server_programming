@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load django_bootstrap5 %}
 {% block main %}
 <div class="row">
   <div class="col d-flex align-items-end">
@@ -35,7 +35,7 @@
 <div>
     <a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
     <p>
-        {% include 'lectures/star.html' with score=review.score %}
+        {% include 'lectures/_star.html' with score=review.score %}
         {{ review.title }}
     </p>
     <p>{{ review.comment }}</p>

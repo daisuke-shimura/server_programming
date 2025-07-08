@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block main %}
 <div class="row">
   <div class="col d-flex align-items-end">
@@ -41,25 +41,67 @@
 
 <hr>
 
-<div class="d-flex mb-3">
-  <h4>レビュー：{{ lecture.reviews_count }}</h4>
-  <a href="{% url 'reviews_new' lecture.id %}" class="btn btn-success ms-3">新規投稿</a>
+<div class="row">
+  <div class="col">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-auto">
+          {% if search_score %}
+            <h4>評価数：{{ reviews.count }}件</h4>
+          {% else %}
+            <h4>評価数：{{ lecture.reviews_count }}件</h4>
+          {% endif %}
+
+        </div>
+        <div class="col-auto"><a href="{% url 'reviews_new' lecture.id %}" class="btn btn-success">新規投稿</a></div>
+      </div>
+      <div class="row">
+        {% if search_score %}
+          <h5>レビューの絞り込み（評価 ：{% include 'lectures/_star.html' with score=search_score %}）</h5>
+        {% else %}
+          <h5>レビュー 一覧</h5>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    {% for key, value in score_counts.items %}
+      {% include 'lectures/_star.html' with score=key %}
+      {% load review_probability %}
+      <div class="review-meter">
+        <div class="review-meter-fill" style="width: {{ value|review_percent:lecture.reviews_count }}%;"></div>
+      </div>
+      <a href="?q_score={{ key }}">{{ value }}件</a>
+      <br>
+    {% endfor %}
+  </div>
 </div>
+
 <!--レビュー一覧-->
-{% for review in reviews %}
-<div>
-  {{ review.user.username }}
-  <a href="{% url 'reviews_edit' lecture.id review.id %}" class="btn btn-primary ms-3"><i class="fa-solid fa-pen"></i></a>
-  <form action="{% url 'review_delete' lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
-  </form>
-  <p>
-    {% include 'lectures/star.html' with score=review.score %}
-    {{ review.title }}
-  </p>
-  <p>{{ review.comment }}</p>
+{% if valid_reviews %}
+{% for review in valid_reviews %}
+<div class="mt-5">
+  <span class="review-username" data-user-id="{{ review.user.id }}">
+    <i class="fa-solid fa-user"></i>
+    {{ review.user.username }}
+  </span>
+  <div class="other-user" id="other-user-{{ review.user.id }}" style="display: none;"></div>
+
+    <a href="{% url 'reviews_edit' lecture.id review.id %}" class="btn btn-primary ms-3"><i class="fa-solid fa-pen"></i></a>
+    <form action="{% url 'review_delete' lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+    </form>
+    <p>
+      {% include 'lectures/_star.html' with score=review.score %}
+      {{ review.title|default:"タイトルなし" }}
+    </p>
+    <p>{{ review.comment }}</p>
 </div>
 {% endfor %}
+{% else %}
+<p>まだコメントはありません。</p>
+{% endif %}
+<script src="{% static 'snippets/js/user_hover.js' %}"></script>
 
 {% endblock %}

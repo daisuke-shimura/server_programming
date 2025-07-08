@@ -23,6 +23,8 @@ class User(AbstractUser):
     university = models.CharField(max_length=128, null=True, blank=True)
     school_year = models.PositiveIntegerField(null=True, blank=True)
     is_manager = models.BooleanField(default=False)
+    def __str__(self):
+        return self.username
 
 
 class Lecture(models.Model):
@@ -32,11 +34,14 @@ class Lecture(models.Model):
     school_year = models.IntegerField(null=True, blank=True)
     average_score = models.FloatField(null=True, blank=True)
     reviews_count = models.IntegerField(default=0, blank=True)
-
+    def __str__(self):
+        return self.name
 
 class Review(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
     score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.score

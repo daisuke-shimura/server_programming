@@ -13,10 +13,8 @@ urlpatterns = [
     path('new/', views.snippet_new, name='snippet_new'),
     path('<int:snippet_id>/', views.snippet_detail, name='snippet_detail'),
     path('<int:snippet_id>/edit/', views.snippet_edit, name='snippet_edit'),
-    #path('login/', LoginView.as_view(redirect_authenticated_user=True, template_name='snippets/login.html'), name='login'),
     path('login/', LoginView.as_view(redirect_authenticated_user=True, template_name='snippets/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    #path('signup/', CreateView.as_view(template_name='snippets/signup.html',form_class=CustomUserCreationForm, success_url='/'), name='signup'),
     path('signup/', signup_view, name='signup'),
 
     #講義に関するページ（一覧, 詳細）
@@ -28,9 +26,10 @@ urlpatterns = [
     path('lectures/<int:lecture_id>/reviews/<int:review_id>/edit/', views.review_edit, name='reviews_edit'),
     path('lectures/<int:lecture_id>/reviews/<int:review_id>/delete/', views.review_delete, name='review_delete'),
 
-    #ユーザに関するページ（マイページ, 編集）
+    #ユーザに関するページ（マイページ, 編集, 他のユーザページ）
     path('users/<int:user_id>/', views.user_show, name='users_show'),
     path('users/<int:user_id>/edit/', views.user_edit, name='users_edit'),
+    path('users/<int:user_id>/ajax/', views.other_user, name='other_user_ajax'),
 
 #管理者ページ
     path('manager/signup/', views.manager_signup, name='manager_signup'),

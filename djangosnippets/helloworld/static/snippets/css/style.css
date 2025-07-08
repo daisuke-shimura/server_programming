@@ -16,16 +16,15 @@ main {
     color: #fbbf4f;
 }
 
-/*小数点にも対応ver*/
+/*★の小数点も表現*/
 .star-rating {
   position: relative;
   display: inline-block;
   font-size: 18px;
-  color: #ccc; /* 背景の星（枠線） */
 }
 
 .star-rating::before {
-  content: '\f005\f005\f005\f005\f005'; /* 5つの星 */
+  content: '\f005\f005\f005\f005\f005';
   font-family: 'Font Awesome 5 Free';
   font-weight: 400;
   color: #fbbf4f;
@@ -41,7 +40,43 @@ main {
 }
 
 .star-rating-fill::before {
-  content: '\f005\f005\f005\f005\f005'; /* 同じく5つの星 */
+  content: '\f005\f005\f005\f005\f005';
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
+}
+
+
+/*評価の割合の棒グラフ*/
+.review-meter {
+  width: 200px;
+  height: 20px;
+  border: 1px solid #6c757d;
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.review-meter-fill {
+  height: 100%;
+  background-color: #fbbf4f;
+  border-radius: 3px 0 0 3px;
+}
+
+/*他のユーザの詳細（JavaScript）*/
+.other-user{
+  position: relative;
+  margin-top: 5px;
+  background: #f0f0f0;
+  padding: 10px;
+  width: 250px;
+  transform: translateX(100%); /* 初期は右にオフセット */
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  pointer-events: none; /* hoverされてない間はマウスイベント無効 */
+}
+.review-username:hover + .other-user {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }

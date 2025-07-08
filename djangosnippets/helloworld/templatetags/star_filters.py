@@ -6,5 +6,5 @@ register = template.Library()
 def rating_to_percent(value):
     try:
         return float(value) / 5 * 100
-    except:
+    except (ValueError, TypeError):
         return 0
