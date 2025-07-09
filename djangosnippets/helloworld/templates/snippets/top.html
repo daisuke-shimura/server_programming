@@ -7,17 +7,21 @@
     <a class="btn btn-primary" href="{% url 'snippet_new' %}">投稿する</a>
 </div>
 
-{% if lectures %}
+<div class="row my-2">
 {% if manager_exists %}
     <p>管理人が存在します</p>
     <p>※いつか消す</p>
 {% else %}
     <p>管理人が存在しません</p>
-    <a href="manager_signup">管理者ページ 新規登録</a>
+    <a href="{% url 'manager_signup' %}">管理者ページ 新規登録</a>
 {% endif %}
-    <h2>講義一覧</h2>
+</div>
+
+<h2>講義一覧</h2>
+{% if lectures %}
     {% include 'lectures/_lectures_table.html' %}
 {% else %}
-<p>講義はまだ投稿されていません．</p>
+    <p>講義はまだ投稿されていません．</p>
 {% endif %}
+
 {% endblock %}
