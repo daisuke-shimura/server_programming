@@ -14,14 +14,14 @@
             <td>
                 <a href="{% url 'lectures_show' lecture.id %}">{{ lecture.name }}</a>
             </td>
-            <td>{{ lecture.university }}</td>
-            <td>{{ lecture.school_year }}</td>
+            <td>{{ lecture.university|default:"–" }}</td>
+            <td>{{ lecture.school_year|default:"–" }}</td>
             <td>
                 {% load star_filters %}
                 <div class="star-rating">
                   <div class="star-rating-fill" style="width: {{ lecture.average_score|rating_to_percent }}%;"></div>
                 </div>
-                {{ lecture.average_score }}
+                {{ lecture.average_score|default:"" }}
             </td>
             <td>{{ lecture.reviews_count }}</td>
         </tr>

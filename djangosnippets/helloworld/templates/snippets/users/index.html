@@ -27,18 +27,18 @@
                 {{ user.id }}
             </td>
             <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.university }}</td>
-            <td>{{ user.school_year }}</td>
+            <td>{{ user.email|default:"–" }}</td>
+            <td>{{ user.university|default:"–" }}</td>
+            <td>{{ user.school_year|default:"–" }}</td>
             <td>{% include 'users/_user_is_active.html' %}</td>
         </tr>
         {% else %}
         <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.university }}</td>
-            <td>{{ user.school_year }}</td>
+            <td>{{ user.email|default:"–" }}</td>
+            <td>{{ user.university|default:"–" }}</td>
+            <td>{{ user.school_year|default:"–" }}</td>
             <td>{% include 'users/_user_is_active.html' %}</td>
         </tr>
         {% endif %}

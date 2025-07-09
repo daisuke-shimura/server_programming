@@ -20,11 +20,11 @@
 </div>
 <div class="row">
     <div class="col">大学</div>
-    <div class="col">{{ user.university }}</div>
+    <div class="col">{{ user.university|default:"" }}</div>
 </div>
 <div class="row">
     <div class="col">学年</div>
-    <div class="col">{{ user.school_year }}</div>
+    <div class="col">{{ user.school_year|default:"" }}</div>
 </div>
 
 <hr>

@@ -1,5 +1,10 @@
 <div class="user-popup-content">
   <p><strong>ユーザー名:</strong> {{ user.username }}</p>
-  <p><strong>大学:</strong> {{ user.university }}</p>
-  <p><strong>学年:</strong> {{ user.school_year }}年</p>
+  <p><strong>大学：</strong> {{ user.university|default:"" }}</p>
+  <p>
+    <strong>学年：</strong>
+    {% if user.school_year %}
+      {{ user.school_year }}年
+    {% endif %}
+  </p>
 </div>
