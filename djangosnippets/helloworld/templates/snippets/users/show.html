@@ -28,21 +28,45 @@
 </div>
 
 <hr>
-
-<h2>投稿したレビュー</h2>
-{% if reviews %}
-{% for review in reviews %}
-<div>
-    <a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
-    <p>
-        {% include 'lectures/_star.html' with score=review.score %}
-        {{ review.title }}
-    </p>
-    <p>{{ review.comment }}</p>
+<div class="row">
+    <div class="col">
+        <h2>投稿したレビュー</h2>
+        {% if reviews %}
+        {% for review in reviews %}
+        <div>
+            講義名：<a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
+            <p>
+                {% include 'lectures/_star.html' with score=review.score %}
+                {{ review.title }}
+            </p>
+            <p>{{ review.comment }}</p>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>まだレビューを投稿していません。</p>
+        {% endif %}
+    </div>
+    <div class="col">
+        <h2>お気に入り登録した講義</h2>
+        {% if lectures %}
+        <div class="row">
+            <div class="col-8 offset-4">
+                <form method="get" class="form-inline">
+                  <select name="sort" class="form-control mr-2" onchange="this.form.submit()">
+                    <option value="">並び替え</option>
+                    <option value="review_count_desc" {% if sort == "review_count_desc" %}selected{% endif %}>レビューが多い順</option>
+                    <option value="review_count_asc" {% if sort == "review_count_asc" %}selected{% endif %}>レビューが少ない順</option>
+                    <option value="average_score_desc" {% if sort == "average_score_desc" %}selected{% endif %}>評価が高い順</option>
+                    <option value="average_score_asc" {% if sort == "average_score_asc" %}selected{% endif %}>評価が低い順</option>
+                  </select>
+                </form>
+            </div>
+        </div>
+        {% include 'lectures/_lectures_table.html' %}
+        {% else %}
+        <p>まだお気に入り登録した講義はありません。</p>
+        {% endif %}
+    </div>
 </div>
-{% endfor %}
-{% else %}
-<p>まだレビューを投稿していません。</p>
-{% endif %}
 
 {% endblock %}

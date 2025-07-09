@@ -17,6 +17,10 @@ urlpatterns = [
     path('lectures/', views.lecture_index, name='lectures_index'),
     path('lectures/<int:lecture_id>/', views.lecture_show, name='lectures_show'),
 
+    # いいね
+    path('favorites/create/<int:lecture_id>/', views.favorites_create, name='favorites_create'),
+    path('favorites/delete/<int:lecture_id>/', views.favorites_delete, name='favorites_delete'),
+
     #レビューに関するページ（作成、編集、削除）
     path('lectures/<int:lecture_id>/reviews/new/', views.review_new, name='reviews_new'),
     path('lectures/<int:lecture_id>/reviews/<int:review_id>/edit/', views.review_edit, name='reviews_edit'),

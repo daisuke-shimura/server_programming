@@ -45,3 +45,13 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     def __str__(self):
         return self.score
+
+class Favorite(models.Model):
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['lecture', 'user'], name='unique_favorite')
+        ]
+    def __str__(self):
+        return f"Favorite: {self.lecture.name} by {self.user.username}"

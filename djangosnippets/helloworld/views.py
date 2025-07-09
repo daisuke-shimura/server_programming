@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from helloworld.models import Helloworld, User, Lecture, Review
+from helloworld.models import Helloworld, User, Lecture, Review, Favorite
 from helloworld.forms import SnippetForm
 from django.contrib import messages
 
@@ -103,9 +103,24 @@ def user_show(request, user_id):
         messages.error(request, 'このページのアクセスは許可されていません。')
         return redirect('top')
     reviews = user.review_set.all()
+    lectures = Lecture.objects.filter(favorite__user=request.user).distinct()
+
+    #並び替え
+    sort = request.GET.get('sort')
+    if sort == 'review_count_desc':
+        lectures = lectures.order_by('-reviews_count')  # レビュー高い順
+    elif sort == 'review_count_asc':
+        lectures = lectures.order_by('reviews_count')  # レビュー低い順
+    elif sort == 'average_score_desc':
+        lectures = lectures.order_by('-average_score')  # 評価高い順
+    elif sort == 'average_score_asc':
+        lectures = lectures.order_by('average_score')  # 評価低い順
+
     context = {
         'user': user,
         'reviews': reviews,
+        'lectures': lectures,
+        'sort': sort,
     }
     return render(request, 'snippets/users/show.html', context)
 
@@ -150,7 +165,6 @@ def lecture_new(request):
 
 
 def lecture_index(request):
-    #lectures = Lecture.objects.all()
     search_name = request.GET.get('q_name') or "" # 検索キーワード
     search_year = request.GET.get('q_year') or ""
     search_university = request.GET.get('q_university') or ""
@@ -210,7 +224,12 @@ def lecture_show(request, lecture_id):
         1: score1_count,
     }
 
-    valid_reviews = [review for review in reviews if review.title or review.comment]
+    valid_reviews = []
+    for review in reviews:
+        if review.title or review.comment:
+            valid_reviews.append(review)
+
+    is_favorite = lecture.favorite_set.filter(user=request.user).exists()
 
     context = {
         'lecture': lecture,
@@ -218,6 +237,7 @@ def lecture_show(request, lecture_id):
         'search_score': search_score,
         'score_counts': score_counts,
         'valid_reviews': valid_reviews,
+        'is_favorite': is_favorite,
     }
     return render(request, 'snippets/lectures/show.html', context)
 
@@ -300,6 +320,20 @@ def review_delete(request, lecture_id, review_id):
         return redirect('lectures_show', lecture_id=lecture_id)
     else:
         return redirect('lectures_show', lecture_id=lecture_id)
+
+
+#講義のお気に入り登録機能
+@login_required
+def favorites_create(request, lecture_id):
+    lecture = get_object_or_404(Lecture, id=lecture_id)
+    Favorite.objects.get_or_create(user=request.user, lecture=lecture)
+    return redirect('lectures_show', lecture_id=lecture_id)
+
+@login_required
+def favorites_delete(request, lecture_id):
+    lecture = get_object_or_404(Lecture, id=lecture_id)
+    Favorite.objects.filter(user=request.user, lecture=lecture).delete()
+    return redirect('lectures_show', lecture_id=lecture_id)
 
 
 #ログイン後の管理者判別

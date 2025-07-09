@@ -8,15 +8,27 @@
     <h4 class="ms-3">by {{ lecture.university }}</h4>
     {% endif %}
   </div>
-  {% if request.user.is_manager == True %}
   <div class="col">
+  {% if request.user.is_manager == True %}
     <a href="{% url 'lectures_edit' lecture.id %}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> 編集</a>
     <form action="{% url 'lectures_delete' lecture.id %}" method="POST" onsubmit="return confirm('本当に「{{ lecture.name }}」の講義を削除しますか？');" class="d-inline-block">
       {% csrf_token %}
       <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i> 削除</button>
     </form>
-  </div>
+  {% else %}
+    {% if is_favorite %}
+      <!-- 解除 -->
+      <a href="{% url 'favorites_delete' lecture.id %}" class="favorites-custom">
+        お気に入り解除<i class="fa-solid fa-heart"></i>
+      </a>
+    {% else %}
+      <!-- 登録 -->
+      <a href="{% url 'favorites_create' lecture.id %}" class="favorites-custom">
+        お気に入り登録<i class="fa-regular fa-heart"></i>
+      </a>
+    {% endif %}
   {% endif %}
+  </div>
 </div>
 
 <table class="table">
