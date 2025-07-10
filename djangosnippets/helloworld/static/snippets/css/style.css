@@ -12,6 +12,12 @@ main {
     flex-direction: column;
 }
 
+.btn-outline-info:hover,
+.btn-outline-info:focus,
+.btn-outline-info:active {
+    color: #fff !important;
+}
+
 .star{
     color: #fbbf4f;
 }
