@@ -119,17 +119,22 @@ def user_show(request, user_id):
     page_number = request.GET.get('page')
     reviews = paginator.get_page(page_number)
 
-    lectures = Lecture.objects.filter(favorite__user=request.user).distinct()
+    lectures_list = Lecture.objects.filter(favorite__user=request.user).distinct()
     #並び替え
     sort = request.GET.get('sort')
     if sort == 'review_count_desc':
-        lectures = lectures.order_by('-reviews_count')  # レビュー高い順
+        lectures_list = lectures_list.order_by('-reviews_count')  # レビュー高い順
     elif sort == 'review_count_asc':
-        lectures = lectures.order_by('reviews_count')  # レビュー低い順
+        lectures_list = lectures_list.order_by('reviews_count')  # レビュー低い順
     elif sort == 'average_score_desc':
-        lectures = lectures.order_by('-average_score')  # 評価高い順
+        lectures_list = lectures_list.order_by('-average_score')  # 評価高い順
     elif sort == 'average_score_asc':
-        lectures = lectures.order_by('average_score')  # 評価低い順
+        lectures_list = lectures_list.order_by('average_score')  # 評価低い順
+
+    #ページネーション
+    paginator = Paginator(lectures_list, 10)
+    page_number = request.GET.get('page')
+    lectures = paginator.get_page(page_number)
 
     context = {
         'user': user,
