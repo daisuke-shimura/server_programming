@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block main %}
-    <h2>会員登録</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% bootstrap_button button_type='submit' content='登録' %}
-    </form>
+<div class="row align-items-end">
+    <div class="col"><h2>会員登録</h2></div>
+    <div class="col d-flex">
+        <p class="me-1">既に会員登録がお済の方<i class="fa-solid fa-caret-right"></i></p>
+        <a class="link-primary link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a>
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type='submit' content='登録' %}
+</form>
 {% endblock %}

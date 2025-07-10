@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block main %}
-<h2>ログイン</h2>
+
+<div class="row align-items-end">
+    <div class="col"><h2>ログイン</h2></div>
+    <div class="col d-flex">
+        <p class="me-1">会員登録がまだの方<i class="fa-solid fa-caret-right"></i></p>
+        <a class="link-success link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> 会員登録</a>
+    </div>
+</div>
+
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}" />

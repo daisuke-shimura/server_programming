@@ -2,9 +2,12 @@
 
 {% block main %}
 <div class="welcome">
-    <h1 class="title">ようこそBootstrap5を適用したDjangoスニペットへ！</h1>
-    <p class="subtitle">あなたの知見を共有しましょう</p>
-    <a class="btn btn-primary" href="{% url 'snippet_new' %}">投稿する</a>
+    <h1 class="title">ようこそラクタンナビへ！</h1>
+    <p class="subtitle">講義のレビューを投稿しましょう</p>
+    <div class="d-flex justify-content-evenly w-100">
+        <a class="btn btn-outline-primary" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a>
+        <a class="btn btn-outline-success" href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> 新規登録</a>
+    </div>
 </div>
 
 <div class="row my-2">
