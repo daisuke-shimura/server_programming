@@ -229,7 +229,7 @@ def lecture_show(request, lecture_id):
         if review.title or review.comment:
             valid_reviews.append(review)
 
-    is_favorite = lecture.favorite_set.filter(user=request.user).exists()
+    is_favorite = lecture.favorite_set.filter(user=request.user).exists() if request.user.is_authenticated else False
 
     context = {
         'lecture': lecture,
