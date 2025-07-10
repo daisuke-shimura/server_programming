@@ -35,13 +35,19 @@
         {% for review in reviews %}
         <div>
             講義名：<a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
+            <a href="{% url 'reviews_edit' review.lecture.id review.id %}" class="btn btn-primary ms-3"><i class="fa-solid fa-pen"></i></a>
+            <form action="{% url 'review_delete' review.lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+            </form>
             <p>
                 {% include 'lectures/_star.html' with score=review.score %}
-                {{ review.title }}
+                {{ review.title|default:"" }}
             </p>
             <p>{{ review.comment }}</p>
         </div>
         {% endfor %}
+        {% include '_pagination.html' with list=reviews %}
         {% else %}
         <p>まだレビューを投稿していません。</p>
         {% endif %}

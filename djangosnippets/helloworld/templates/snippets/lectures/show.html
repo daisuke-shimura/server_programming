@@ -77,9 +77,9 @@
       </div>
       <div class="row">
         {% if search_score %}
-          <h5>レビューの絞り込み（評価 ：{% include 'lectures/_star.html' with score=search_score %}）</h5>
+          <h4>レビューの絞り込み（評価 ：{% include 'lectures/_star.html' with score=search_score %}）</h4>
         {% else %}
-          <h5>レビュー 一覧</h5>
+          <h4>レビュー 一覧</h4>
         {% endif %}
       </div>
     </div>
@@ -100,9 +100,9 @@
 <!--レビュー一覧-->
 {% if valid_reviews %}
 {% for review in valid_reviews %}
-<div class="row">
-  <div class="col mt-5">
-    <a href="#" class="review-username link-dark link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" data-user-id="{{ review.user.id }}">
+<div class="row mt-4">
+  <div class="col">
+    <a href="#" class="review-username fs-5 link-dark link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" data-user-id="{{ review.user.id }}">
       <i class="fa-solid fa-user"></i>
       {{ review.user.username }}
     </a>
@@ -113,17 +113,20 @@
       <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
     </form>
     {% endif %}
-    <p>
-      {% include 'lectures/_star.html' with score=review.score %}
-      {{ review.title|default:"タイトルなし" }}
-    </p>
-    <p>{{ review.comment }}</p>
+    <div class="container">
+      <p class="m-1">
+        {% include 'lectures/_star.html' with score=review.score %}
+        {{ review.title|default:"タイトルなし" }}
+      </p>
+      <p>{{ review.comment }}</p>
+    </div>
   </div>
   <div class="col mt-5">
     <div class="other-user" id="other-user-{{ review.user.id }}" style="display: none;"></div>
   </div>
 </div>
 {% endfor %}
+{% include '_pagination.html' with list=valid_reviews %}
 {% else %}
 <p>まだコメントはありません。</p>
 {% endif %}

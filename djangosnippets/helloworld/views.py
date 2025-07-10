@@ -4,10 +4,16 @@ from django.contrib.auth.decorators import login_required
 from helloworld.models import Helloworld, User, Lecture, Review, Favorite
 from helloworld.forms import SnippetForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 def top(request):
-    lectures = Lecture.objects.all()
+    lectures_list = Lecture.objects.all()
+    #ページネーション
+    paginator = Paginator(lectures_list, 5)
+    page_number = request.GET.get('page')
+    lectures = paginator.get_page(page_number)
+
     manager_exists = User.objects.filter(is_manager=True).exists()
     context = {
         'lectures': lectures,
@@ -81,7 +87,11 @@ def manager_signup(request):
 
 #ユーザ一覧
 def user_index(request):
-    users = User.objects.all()
+    users_list = User.objects.all()
+    #ページネーション
+    paginator = Paginator(users_list, 10)
+    page_number = request.GET.get('page')
+    users = paginator.get_page(page_number)
 
     context = {
         'users': users,
@@ -102,9 +112,14 @@ def user_show(request, user_id):
     if user != request.user:
         messages.error(request, 'このページのアクセスは許可されていません。')
         return redirect('top')
-    reviews = user.review_set.all()
-    lectures = Lecture.objects.filter(favorite__user=request.user).distinct()
 
+    reviews_list = user.review_set.all()
+    #ページネーション
+    paginator = Paginator(reviews_list, 5)
+    page_number = request.GET.get('page')
+    reviews = paginator.get_page(page_number)
+
+    lectures = Lecture.objects.filter(favorite__user=request.user).distinct()
     #並び替え
     sort = request.GET.get('sort')
     if sort == 'review_count_desc':
@@ -170,26 +185,31 @@ def lecture_index(request):
     search_university = request.GET.get('q_university') or ""
     sort = request.GET.get('sort')
 
-    lectures = Lecture.objects.all()
+    lectures_list = Lecture.objects.all()
 
     if search_name:
-        lectures = lectures.filter(name__icontains=search_name)
+        lectures_list = lectures_list.filter(name__icontains=search_name)
 
     if search_year:
-        lectures = lectures.filter(school_year=int(search_year))
+        lectures_list = lectures_list.filter(school_year=int(search_year))
 
     if search_university:
-        lectures = lectures.filter(university__icontains=search_university)
+        lectures_list = lectures_list.filter(university__icontains=search_university)
 
     #並び替え
     if sort == 'review_count_desc':
-        lectures = lectures.order_by('-reviews_count')  # レビュー高い順
+        lectures_list = lectures_list.order_by('-reviews_count')  # レビュー高い順
     elif sort == 'review_count_asc':
-        lectures = lectures.order_by('reviews_count')  # レビュー低い順
+        lectures_list = lectures_list.order_by('reviews_count')  # レビュー低い順
     elif sort == 'average_score_desc':
-        lectures = lectures.order_by('-average_score')  # 評価高い順
+        lectures_list = lectures_list.order_by('-average_score')  # 評価高い順
     elif sort == 'average_score_asc':
-        lectures = lectures.order_by('average_score')  # 評価低い順
+        lectures_list = lectures_list.order_by('average_score')  # 評価低い順
+
+    #ページネーション
+    paginator = Paginator(lectures_list, 10)
+    page_number = request.GET.get('page')
+    lectures = paginator.get_page(page_number)
 
     context = {
         'lectures': lectures,
@@ -224,12 +244,17 @@ def lecture_show(request, lecture_id):
         1: score1_count,
     }
 
-    valid_reviews = []
+    is_favorite = lecture.favorite_set.filter(user=request.user).exists() if request.user.is_authenticated else False
+
+    valid_reviews_list = []
     for review in reviews:
         if review.title or review.comment:
-            valid_reviews.append(review)
+            valid_reviews_list.append(review)
 
-    is_favorite = lecture.favorite_set.filter(user=request.user).exists() if request.user.is_authenticated else False
+    #ページネーション
+    paginator = Paginator(valid_reviews_list, 10)
+    page_number = request.GET.get('page')
+    valid_reviews = paginator.get_page(page_number)
 
     context = {
         'lecture': lecture,
