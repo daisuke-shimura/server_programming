@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block main %}
-<div class="row">
-  <div class="col d-flex align-items-end">
+<div class="row flex-column flex-md-row">
+  <div class="col col-md-8 col-xl-6 d-flex align-items-end">
     <h2>{{ lecture.name }}</h2>
     {% if lecture.university %}
-    <h4 class="ms-3">by {{ lecture.university }}</h4>
+    <h4 class="ms-3 d-none d-md-block">by {{ lecture.university }}</h4>
     {% endif %}
   </div>
-  <div class="col">
+  <div class="col col-md-4 col-xl-6">
     {% if user.is_authenticated %}
       {% if request.user.is_manager == True %}
         <a href="{% url 'lectures_edit' lecture.id %}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> 編集</a>
@@ -61,17 +61,16 @@
 
 <hr>
 
-<div class="row">
-  <div class="col">
+<div class="row flex-column flex-md-row">
+  <div class="col order-2 order-md-1 mt-3 mt-md-1">
     <div class="container">
-      <div class="row mb-5">
+      <div class="row mb-3 mb-md-5">
         <div class="col-auto">
           {% if search_score %}
             <h4>評価数：{{ reviews.count }}件</h4>
           {% else %}
             <h4>評価数：{{ lecture.reviews_count }}件</h4>
           {% endif %}
-
         </div>
         <div class="col-auto"><a href="{% url 'reviews_new' lecture.id %}" class="btn btn-success">新規投稿</a></div>
       </div>
@@ -84,7 +83,7 @@
       </div>
     </div>
   </div>
-  <div class="col">
+  <div class="col order-1 order-md-2">
     {% for key, value in score_counts.items %}
       {% include 'lectures/_star.html' with score=key %}
       {% load review_probability %}
@@ -100,7 +99,7 @@
 <!--レビュー一覧-->
 {% if valid_reviews %}
 {% for review in valid_reviews %}
-<div class="row mt-4">
+<div class="row flex-column flex-md-row mt-4">
   <div class="col">
     <a href="#" class="review-username fs-5 link-dark link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" data-user-id="{{ review.user.id }}">
       <i class="fa-solid fa-user"></i>
@@ -130,6 +129,8 @@
 {% else %}
 <p>まだコメントはありません。</p>
 {% endif %}
+
+{% load static %}
 <script src="{% static 'snippets/js/user_hover.js' %}"></script>
 
 {% endblock %}

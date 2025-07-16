@@ -2,9 +2,9 @@
 {% load django_bootstrap5 %}
 {% block main %}
 <div class="row align-items-end">
-    <div class="col"><h2>会員登録</h2></div>
-    <div class="col d-flex">
-        <p class="me-1">既に会員登録がお済の方<i class="fa-solid fa-caret-right"></i></p>
+    <div class="col-4 col-md-6"><h2>会員登録</h2></div>
+    <div class="col-8 col-md-6 d-flex">
+        <p class="me-1">既にお済の方<i class="fa-solid fa-caret-right"></i></p>
         <a class="link-primary link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a>
     </div>
 </div>

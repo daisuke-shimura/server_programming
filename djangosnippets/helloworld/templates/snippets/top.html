@@ -23,20 +23,60 @@
 </div>
 
 <div class="row my-2">
-{% if manager_exists %}
-    <p>管理人が存在します</p>
-    <p>※いつか消す</p>
-{% else %}
+{% if not manager_exists %}
     <p>管理人が存在しません</p>
     <a href="{% url 'manager_signup' %}">管理者ページ 新規登録</a>
 {% endif %}
 </div>
 
-<h2>講義一覧</h2>
-{% if lectures %}
-    {% include 'lectures/_lectures_table.html' %}
-{% else %}
-    <p>講義はまだ投稿されていません．</p>
-{% endif %}
+<div id="carousel-container">
+    <div class="carousel-track">
+        <div class="item">
+            <div class="row mt-3 ms-3">
+                <div class="col-7 col-md-6"><h5>講義 Pick Up</h5></div>
+                <div class="col-5 col-md-6 d-flex">
+                    <p class="d-none d-md-inline me-1">一覧はこちらから<i class="fa-solid fa-caret-right"></i></p>
+                    <a class="link-primary link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a>
+                </div>
+            </div>
+            {% include '_scroll_template.html' with lectures=normal_lectures rank="" %}
+        </div>
+        <div class="item">
+            <div class="row mt-3 ms-3">
+                <div class="col-7 col-md-6"><h5>評価トップ5</h5></div>
+                <div class="col-5 col-md-6 d-flex">
+                    <p class="d-none d-md-inline me-1">一覧はこちらから<i class="fa-solid fa-caret-right"></i></p>
+                    <a class="link-primary link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a>
+                </div>
+            </div>
+            {% include '_scroll_template.html' with lectures=score_lectures rank="位" %}
+        </div>
+        <div class="item">
+            <div class="row mt-3 ms-3">
+                <div class="col-7 col-md-6"><h5>レビュー数トップ5</h5></div>
+                <div class="col-5 col-md-6 d-flex">
+                    <p class="d-none d-md-inline me-1">一覧はこちらから<i class="fa-solid fa-caret-right"></i></p>
+                    <a class="link-primary link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a>
+                </div>
+            </div>
+            {% include '_scroll_template.html' with lectures=review_lectures rank="位" %}
+        </div>
+        <div class="item">
+            <div class="row mt-3 ms-3">
+                <div class="col-7 col-md-6"><h5>お気に入りトップ5</h5></div>
+                <div class="col-5 col-md-6 d-flex">
+                    <p class="d-none d-md-inline me-1">一覧はこちらから<i class="fa-solid fa-caret-right"></i></p>
+                    <a class="link-primary link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a>
+                </div>
+            </div>
+            {% include '_scroll_template.html' with lectures=favorites_lectures rank="位" %}
+        </div>
+    </div>
+    <button id="prev" class="nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+    <button id="next" class="nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+
+{% load static %}
+<script src="{% static 'snippets/js/scroll.js' %}"></script>
 
 {% endblock %}

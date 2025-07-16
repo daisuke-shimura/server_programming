@@ -1,16 +1,45 @@
-
 main {
-    padding: 2rem 0;
+    padding: 2rem 0 ;
 }
 
 .welcome {
-    padding: 3rem 0;
-    margin-bottom: 2rem;
-    background-color: #eee;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
+  padding: 3rem 1rem;
+  margin-bottom: 2rem;
+  background:linear-gradient(135deg, #fff8d6, #fce38a); /* イチョウの黄色 */
+  border-radius: 1.5rem; /* 丸み */
+  box-shadow: 0 0.5rem 1rem rgba(204, 153, 0, 0.15); /* 柔らかい影 */
+  color: #5a4200; /* 秋らしい茶系文字色 */
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
 }
+
+/*目次のスタイルシート*/
+.custom-navbar {
+  background-color: #fff9cc; /* 淡い黄色 */
+}
+
+/*ラクタンナビデコレーション(ログアウト)*/
+.cute-brand {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #ffffff; /* 通常は白 */
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease; /* スムーズな色変化 */
+ }
+
+/*ラクタンナビデコレーション(ログイン)*/
+ .cute-brand2 {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #000000; /* 通常は黒 */
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease; /* スムーズな色変化 */
+ }
+
 
 .btn-outline-info:hover,
 .btn-outline-info:focus,
@@ -111,4 +140,71 @@ main {
 /*お気に入り*/
 .favorites-custom{
   color: #ff1493;
+}
+
+
+/*top画面のスクロール*/
+#carousel-container {
+  width: 100%;
+  /*max-width: 1000px;  最大幅は維持 */
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid #ccc;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.item {
+  min-width: 100%;
+  /*background: lightcoral;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;*/
+  border: 1px solid #000;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 10px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#carousel-container:hover .nav-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#prev { left: 5px; }
+#next { right: 5px; }
+
+/*ハンバーガーメニューの幅*/
+#offcanvasNavbar {
+width: 150px;
+}
+
+/*講義一覧横スクロール用
+.lecture_table {
+    min-width: 600px;
+}*/
+
+@media screen and (max-width:768px) {
+    /*.w-90 {
+        width: 100%;
+    }*/
 }

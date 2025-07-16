@@ -1,6 +1,8 @@
-<table class="table table-hover table-bordered lecture_table">
+<div class="table-responsive-sm">
+<table class="table table-hover table-bordered mb-0">
     <thead class="table table-warning">
         <tr>
+            <th class="text-nowrap"></th>
             <th class="text-nowrap">講義名</th>
             <th class="text-nowrap">大学</th>
             <th class="text-nowrap">学年</th>
@@ -11,6 +13,7 @@
     <tbody>
         {% for lecture in lectures %}
         <tr>
+            <td class="text-nowrap">{{ forloop.counter }}{{ rank }}</td>
             <td class="text-nowrap">
                 <a href="{% url 'lectures_show' lecture.id %}">{{ lecture.name }}</a>
             </td>
@@ -28,5 +31,4 @@
         {% endfor %}
     </tbody>
 </table>
-
-{% include '_pagination.html' with list=lectures %}
+</div>

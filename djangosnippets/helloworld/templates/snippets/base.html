@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>ラクタンナビ</title>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -14,56 +15,130 @@
     <header>
         {% if user.is_authenticated %}
             {% if user.is_manager %}
-                <nav class="navbar navbar-expand flex-md-row navbar-dark bg-primary">
-                    <div class="container justify-content-between">
-                        <a href="/" class="navbar-brand">管理者ページ</a>
-                        <ul class="navbar-nav mr-md-2">
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_new' %}"><i class="fa-solid fa-square-plus"></i> 講義作成</a></li>
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'users_index' %}"><i class="fa-solid fa-users"></i> 会員一覧</a></li>
-                            <li>
-                                <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="logout" value="true">
-                                    <a href="javascript:document.f_logout.submit()" class="logout nav-link"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</a>
-                                </form>
-                            </li>
-                        </ul>
+            <nav class="navbar navbar-expand-md flex-md-row navbar-dark bg-primary">
+                <div class="container d-flex justify-content-between">
+                    <a href="/" class="navbar-brand">管理者ページ</a>
+                    <ul class="navbar-nav mr-2 flex-row d-none d-md-flex">
+                        <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_new' %}"><i class="fa-solid fa-square-plus"></i> 講義作成</a></li>
+                        <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                        <li><a class="nav-link text-white fw-bold" href="{% url 'users_index' %}"><i class="fa-solid fa-users"></i> 会員一覧</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn btn-link">
+                                      <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                    <div class="d-md-none">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="offcanvas offcanvas-end bg-primary" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                          <div class="d-flex justify-content-end mt-2">
+                            <button type="button" class="btn text-white border-0 fs-3" data-bs-dismiss="offcanvas" aria-label="Close">
+                              <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </div>
+                          <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_new' %}"><i class="fa-solid fa-square-plus"></i> 講義作成</a></li>
+                                <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                                <li><a class="nav-link text-white fw-bold" href="{% url 'users_index' %}"><i class="fa-solid fa-users"></i> 会員一覧</a></li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="nav-link btn btn-link">
+                                              <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                          </div>
+                        </div>
                     </div>
-                </nav>
+                </div>
+            </nav>
             {% else %}
-                <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
-                    <div class="container justify-content-between">
-                        <a href="/" class="navbar-brand">ラクタンナビ</a>
-                        <ul class="navbar-nav mr-md-2">
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
-                            <li><a class="nav-link text-white fw-bold" href="{% url 'users_show' request.user.id %}"><i class="fa-solid fa-user"></i> マイページ</a></li>
-                            <li>
-                                <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="logout">
-                                    <a href="javascript:f_logout.submit()" class="logout nav-link"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</a>
-                                </form>
-                            </li>
-                        </ul>
+            <nav class="navbar navbar-expand-md flex-md-row navbar-light custom-navbar">
+                <div class="container d-flex justify-content-between">
+                    <a href="/" class="navbar-brand cute-brand2">ラクタンナビ</a>
+                    <ul class="navbar-nav mr-2 flex-row d-none d-md-flex">
+                        <li><a class="nav-link fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                        <li><a class="nav-link fw-bold" href="{% url 'users_show' request.user.id %}"><i class="fa-solid fa-user"></i> マイページ</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn btn-link">
+                                  <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                    <div class="d-md-none">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="offcanvas offcanvas-end custom-navbar" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                          <div class="d-flex justify-content-end mt-2">
+                            <button type="button" class="btn border-0 fs-3" data-bs-dismiss="offcanvas" aria-label="Close">
+                              <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </div>
+                          <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li><a class="nav-link fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                                <li><a class="nav-link fw-bold" href="{% url 'users_show' request.user.id %}"><i class="fa-solid fa-user"></i> マイページ</a></li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post" name="f_logout" class="mb-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="nav-link btn btn-link">
+                                          <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                          </div>
+                        </div>
                     </div>
-                </nav>
+                </div>
+            </nav>
             {% endif %}
         {% else %}
-        <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
-            <div class="container justify-content-between">
-                <a href="/" class="navbar-brand">ラクタンナビ</a>
-                <ul class="navbar-nav mr-md-2">
+        <nav class="navbar navbar-expand-md navbar-dark flex-md-row bg-dark">
+            <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand cute-brand">ラクタンナビ</a>
+                <ul class="navbar-nav mr-2 flex-row d-none d-md-flex">
                     <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> 会員登録</a></li>
+                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a></li>
+                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> 会員登録</a></li>
                 </ul>
+                <div class="d-md-none">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                      <div class="d-flex justify-content-end mt-2">
+                        <button type="button" class="btn text-white border-0 fs-3" data-bs-dismiss="offcanvas" aria-label="Close">
+                          <i class="fa-solid fa-xmark"></i>
+                        </button>
+                      </div>
+                      <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li><a class="nav-link text-white fw-bold" href="{% url 'lectures_index' %}"><i class="fa-solid fa-book-open"></i> 講義一覧</a></li>
+                            <li class="nav-item"><a class="nav-link text-white fw-bold" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> ログイン</a></li>
+                            <li class="nav-item"><a class="nav-link text-white fw-bold" href="{% url 'signup' %}"><i class="fa-solid fa-user-plus"></i> 会員登録</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
             </div>
         </nav>
         {% endif %}
     </header>
     <main>
-        <div class="container">
+        <div class="container w-90">
             {% if messages %}
               <div class="messages">
                 {% for message in messages %}
@@ -79,8 +154,10 @@
                 {% endfor %}
               </div>
             {% endif %}
-            {% block main %}{% endblock %}
+            {% block main %}
+            {% endblock %}
         </div>
     </main>
+    <footer></footer>
 </body>
 </html>

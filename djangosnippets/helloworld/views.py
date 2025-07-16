@@ -7,16 +7,20 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 
 # Create your views here.
+from django.db.models import Count
 def top(request):
-    lectures_list = Lecture.objects.all()
-    #ページネーション
-    paginator = Paginator(lectures_list, 5)
-    page_number = request.GET.get('page')
-    lectures = paginator.get_page(page_number)
+    normal_lectures = Lecture.objects.all()[:5]
+    score_lectures = Lecture.objects.order_by('-average_score')[:5]
+    review_lectures = Lecture.objects.order_by('-reviews_count')[:5]
+    favorites_lectures = Lecture.objects.annotate(favorite_count=Count('favorite')).order_by('-favorite_count')[:5]
+    #average = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
 
     manager_exists = User.objects.filter(is_manager=True).exists()
     context = {
-        'lectures': lectures,
+        'normal_lectures': normal_lectures,
+        'score_lectures': score_lectures,
+        'review_lectures': review_lectures,
+        'favorites_lectures': favorites_lectures,
         'manager_exists': manager_exists,
     }
     return render(request, 'snippets/top.html', context)
@@ -306,7 +310,7 @@ def review_new(request, lecture_id):
             review.lecture = lecture
             review.user = request.user
             review.save()
-            lecture.reviews_count += 1
+            lecture.reviews_count = Review.objects.filter(lecture=lecture).count()
             average = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
             lecture.average_score = round(average, 2)
             lecture.save()
@@ -343,7 +347,7 @@ def review_delete(request, lecture_id, review_id):
         return redirect('lectures_show', lecture_id=lecture_id)
     if request.method == 'POST':
         review.delete()
-        lecture.reviews_count -= 1
+        lecture.reviews_count = Review.objects.filter(lecture=lecture).count()
         average = Review.objects.filter(lecture=lecture).aggregate(Avg('score'))['score__avg']
         lecture.average_score = round(average, 2)
         lecture.save()

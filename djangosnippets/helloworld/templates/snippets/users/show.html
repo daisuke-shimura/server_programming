@@ -68,7 +68,9 @@
                 </form>
             </div>
         </div>
-        {% include 'lectures/_lectures_table.html' %}
+        <div class="table-responsive-sm">
+            {% include 'lectures/_lectures_table.html' %}
+        </div>
         {% else %}
         <p>まだお気に入り登録した講義はありません。</p>
         {% endif %}

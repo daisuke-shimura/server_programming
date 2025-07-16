@@ -7,44 +7,46 @@
     <h5 class="ms-3">※ <span class="text-danger fw-bold">*</span> は管理者ユーザ</h5>
 </div>
 
-<table class="table table-hover table-bordered">
-    <thead class="table table-secondary">
-        <tr>
-            <th>ID</th>
-            <th>名前</th>
-            <th>メールアドレス</th>
-            <th>大学</th>
-            <th>学年</th>
-            <th>アカウント状態</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in users %}
-        {% if user.is_manager %}
-        <tr>
-            <td>
-                <span class="text-danger fw-bold">*</span>
-                {{ user.id }}
-            </td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email|default:"–" }}</td>
-            <td>{{ user.university|default:"–" }}</td>
-            <td>{{ user.school_year|default:"–" }}</td>
-            <td>{% include 'users/_user_is_active.html' %}</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email|default:"–" }}</td>
-            <td>{{ user.university|default:"–" }}</td>
-            <td>{{ user.school_year|default:"–" }}</td>
-            <td>{% include 'users/_user_is_active.html' %}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-    </tbody>
-</table>
+<div class="table-responsive-sm">
+    <table class="table table-hover table-bordered">
+        <thead class="table table-secondary">
+            <tr>
+                <th class="text-nowrap">ID</th>
+                <th class="text-nowrap">名前</th>
+                <th class="text-nowrap">メールアドレス</th>
+                <th class="text-nowrap">大学</th>
+                <th class="text-nowrap">学年</th>
+                <th class="text-nowrap">アカウント状態</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            {% if user.is_manager %}
+            <tr>
+                <td class="text-nowrap">
+                    <span class="text-danger fw-bold">*</span>
+                    {{ user.id }}
+                </td>
+                <td class="text-nowrap">{{ user.username }}</td>
+                <td class="text-nowrap">{{ user.email|default:"–" }}</td>
+                <td class="text-nowrap">{{ user.university|default:"–" }}</td>
+                <td class="text-nowrap">{{ user.school_year|default:"–" }}</td>
+                <td class="text-nowrap">{% include 'users/_user_is_active.html' %}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="text-nowrap">{{ user.id }}</td>
+                <td class="text-nowrap">{{ user.username }}</td>
+                <td class="text-nowrap">{{ user.email|default:"–" }}</td>
+                <td class="text-nowrap">{{ user.university|default:"–" }}</td>
+                <td class="text-nowrap">{{ user.school_year|default:"–" }}</td>
+                <td class="text-nowrap">{% include 'users/_user_is_active.html' %}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% include '_pagination.html' with list=users %}
 

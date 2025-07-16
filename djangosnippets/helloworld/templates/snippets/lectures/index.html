@@ -5,19 +5,21 @@
 <div class="row">
     <div class="col-12 col-md-8 offset-md-4">
         <form method="get" class="form-inline mb-3 d-flex">
-          <input type="text" name="q_name" value="{{ search_name }}" placeholder="講義名で検索" class="form-control mr-2">
+          <input type="text" name="q_name" value="{{ search_name }}" placeholder="講義名" class="form-control mr-2">
           <input type="text" name="q_university" value="{{ search_university }}" placeholder="大学名" class="form-control mr-2">
           <select name="q_year" class="form-control mr-2">
-            <option value="">学年で検索</option>
+            <option value="">学年</option>
             <option value="1" {% if search_year == "1" %}selected{% endif %}>1</option>
             <option value="2" {% if search_year == "2" %}selected{% endif %}>2</option>
             <option value="3" {% if search_year == "3" %}selected{% endif %}>3</option>
             <option value="4" {% if search_year == "4" %}selected{% endif %}>4</option>
           </select>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button type="submit" class="btn btn-primary align-items-center justify-content-center mx-1"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button id="reset-button" class="btn btn-secondary text-nowrap">リセット</button>
         </form>
     </div>
 </div>
+
 <div class="row">
     <div class="col-6 offset-6 col-md-4 offset-md-8">
         <form method="get" class="form-inline mb-3">
@@ -38,6 +40,11 @@
 </div>
 
 <h2>講義一覧</h2>
-{% include 'lectures/_lectures_table.html' %}
+<div class="table-responsive-sm">
+    {% include 'lectures/_lectures_table.html' %}
+</div>
+
+{% load static %}
+<script src="{% static 'snippets/js/reset.js' %}"></script>
 
 {% endblock %}
